@@ -1,0 +1,5 @@
+000,Name,Max Capacity,Professor,Classes Per Week,Dependent Courses,Dependent Classrooms
+001,BEC,100,Paul Braniard,3,,
+002,ITWS,200,Gowhri Subramanian,5,,
+003,BEC-LAB,200,Don't Care,1,001,306
+012,Comms-2,25,Divya Raj,3,001+003,103
