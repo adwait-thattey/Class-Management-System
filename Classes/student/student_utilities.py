@@ -26,7 +26,7 @@ def get_all_students():
 	all_students = []
 	all_ids = []
 	try:
-		file = open("course_data.csv", mode ="r")
+		file = open("class_data.csv", mode ="r")
 	except:
 		print("file not present")
 		exit()
