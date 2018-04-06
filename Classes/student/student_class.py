@@ -43,10 +43,10 @@ class student:
 
 	def display(self):
 		print("Details of the student : ")
-		print("%-13s : %s"%("Roll no",self.rollno))
-		print("%-13s : %s"%("Roll no",self.name))
-		print("%-13s : %s"%("Roll no",self.email))
-		print("%-13s : %s"%("Roll no",self.batch))
+		print("%-13s : %s"%("Roll no :",self.rollno))
+		print("%-13s : %s"%("Name :",self.name))
+		print("%-13s : %s"%("Email :",self.email))
+		print("%-13s : %s"%("Batch :",self.batch))
 		print("\n Current courses : ", self.curr_courses)
 		print("\n Past courses : ", self.past_courses)
 
