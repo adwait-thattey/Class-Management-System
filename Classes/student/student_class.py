@@ -3,9 +3,10 @@ def get_new_roll():
 		file = open("class_data.csv",mode='r')
 	except:
 		print("file not found")
-
+	curr_id = 0
+	ret_id = 0
 	file.readline()
-	id=[]
+	#id=[]
 	for line in file:
 		if(len(line)<= 0):
 			break
@@ -13,17 +14,17 @@ def get_new_roll():
 			id.append(int(line.split(',')[0]))
 		except:
 			continue
-	if(len(list)<=0):
-		return "001"
-	maxm = max(id)
-	maxm +=1
+			if(line-curr_id!= 1):
+				ret_id = curr_id + 1
+				break
+			curr_id+=1
+	else:
+		ret_id = curr_id + 1
+		ret_id = str(ret_id)
 	file.close()
-	maxm = str(maxm)
-	while(len(maxm)<3):
-		maxm = '0' + maxm
-	return maxm
-
-
+	while(len(ret_id)<3):
+		ret_id= '0'+ ret_id
+	return ret_id
 
 class student:
 
@@ -49,11 +50,12 @@ class student:
 	def new_student(cls,name,batch,curr_courses,past_courses):
 		obj = student()
 		obj.name = name
-		obj.rollno = str(get_new_roll())
+		rollno = str(get_new_roll())
+		obj.rollno = rollno
 		obj.email = name + rollno + "@iiits.in"
 		obj.batch = batch
-		obj.curr_courses = obj.curr_courses.extend(curr_courses)
-		obj.past_courses = obj.past_courses.extend(past_courses)
+		obj.curr_courses = list((curr_courses))
+		obj.past_courses = list((past_courses))
 		return obj
 
 	@classmethod
@@ -86,6 +88,5 @@ class student:
 	def put_in_file(self):
 		Student = [self.rollno,self.name,self.email,self.batch,"+".join(self.curr_courses),"+".join(self.past_courses)]
 		file = open("class_data.csv",mode = "a")
-		file.write(",".join(Student) + "\n")
+		file.write("\n"+",".join(Student) + "\n")
 		file.close()
-
