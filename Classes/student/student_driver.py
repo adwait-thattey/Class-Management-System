@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	a= student.new_student("rohit","ug1",["cpp","python"],["iws","its"] )#during this call exisiting student is working
 	
 	a.put_in_file()
-
+	st1.display()
 	get = get_all_students()
 #	for i in get:
 #		print(i.name)

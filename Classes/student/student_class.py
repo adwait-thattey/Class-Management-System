@@ -47,8 +47,8 @@ class student:
 		print("%-13s : %s"%("Name :",self.name))
 		print("%-13s : %s"%("Email :",self.email))
 		print("%-13s : %s"%("Batch :",self.batch))
-		print("\n Current courses : ", self.curr_courses)
-		print("\n Past courses : ", self.past_courses)
+		print("Current courses : ", self.curr_courses)
+		print("Past courses : ", self.past_courses)
 
 
 	@classmethod
