@@ -1,85 +1,5 @@
-def generate_course_id():
-    ''' Generates a new unique course ID by observing all the existing course IDs from the file 'course_data.csv' '''
-    try:
-        F = open("course_data.csv", mode='r')
-    except:
-        print('Error in opening File')
-        exit()
-    cur_id = 0
-    ret_id = 0
-    F.readline()
-    for line in F:
-        # print(line)
-        if(len(line) <= 0):
-            break
-        try :   line = int(line.split(',')[0])
-        except : continue
-        if(line-cur_id != 1):
-            ret_id = cur_id+1
-            break
-        cur_id += 1
-    else:
-        ret_id = cur_id + 1
-    ret_id = str(ret_id)
-    F.close()
-    while(len(ret_id) < 3):
-        ret_id = '0' + ret_id
+from id_generators import *
 
-    return ret_id
-
-def get_new_roll():
-	try :
-		file = open("class_data.csv",mode='r')
-	except:
-		print("file not found")
-
-	file.readline()
-	id=[]
-	for line in file:
-		if(len(line)<= 0):
-			break
-		try:
-			id.append(int(line.split(',')[0]))
-		except:
-			continue
-	if(len(list)<=0):
-		return "001"
-	maxm = max(id)
-	maxm +=1
-	file.close()
-	maxm = str(maxm)
-	while(len(maxm)<3):
-		maxm = '0' + maxm
-	return maxm
-
-def generate_classroom_id():
-    ''' Generates a new unique classroom ID by observing all the existing classroom IDs from the file 'classroom_data.csv' '''
-    try:
-        F = open("classroom_data.csv", mode='r')
-    except:
-        print('Error in opening File')
-        exit()
-    cur_id = 0
-    ret_id = 0
-    F.readline()
-    for line in F:
-        # print(line)
-        if(len(line) <= 0):
-            break
-        try :   line = int(line.split(',')[0])
-        except : continue
-        if(line-cur_id != 1):
-            ret_id = cur_id+1
-            break
-        cur_id += 1
-    else:
-        ret_id = cur_id + 1
-    ret_id = str(ret_id)
-    F.close()
-    while(len(ret_id) < 3):
-        ret_id = '0' + ret_id
-
-    return ret_id
 
 class classroom :
     ''' Class that contains details of a particular classroom '''
@@ -120,7 +40,7 @@ class classroom :
     def put_to_file(self) :
         ''' Appends this perticular classroom to the file 'classroom_data.csv'. '''
         String = [self.id, self.name, str(self.max_capacity)]
-        F = open("classroom_data.csv", mode='a')
+        F = open(data_file_paths[classroom], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
 
@@ -184,7 +104,7 @@ class student:
 
     def put_in_file(self):
         Student = [self.rollno,self.name,self.email,self.batch,"+".join(self.curr_courses),"+".join(self.past_courses)]
-        file = open("class_data.csv",mode = "a")
+        file = open(data_file_paths[student],mode = "a")
         file.write(",".join(Student) + "\n")
         file.close()
 
@@ -244,9 +164,108 @@ class course :
     def put_to_file(self) :
         ''' Appends this perticular course to the file 'course_data.csv'. '''
         String = [self.id, self.name, str(self.max_capacity), self.professor, str(self.no_of_classes_per_week),"+".join(self.dependent_courses),"+".join(self.dependent_classrooms)]
-        F = open("course_data.csv", mode='a')
+        F = open(data_file_paths[course], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
 
+class professor :
+	''' Class that contains details of a perticular professor '''
 
+	def __init__(self):
+		''' Defaults all data elements to None '''
+		self.id = None
+		self.name = None
+		self.email = None
+		self.courses = None
+	
+	@classmethod
+	def new_professor(cls,name) :
+		obj = professor()
+		obj.name = name
+		obj.id = generate_professor_id()
+		if(len(obj.id)!=3) :
+			print("Number of characters in ID are not equal to 3. Will cause problems with email")
+			exit()
+		obj.email = name.split()[0].lower() + obj.id + "@iiits.in"
+		obj.courses = []
+
+		return obj
+
+	@classmethod
+	def existing_professor(cls,incoming_id,name,email,courses):
+		obj = professor()
+		obj.name = str(name)
+		obj.id = str(incoming_id)
+		obj.email = str(email)
+		obj.courses = list(courses)
+
+		return obj
+
+	def display_details(self) :
+			''' Displays details of this perticular professor '''
+			print("Details of Professor : ")
+			print("%-13s : %s"%("Id",self.id))
+			print("%-13s : %s"%("Name",self.name))
+			print("%-13s : %s" % ("Email", self.email))
+			
+			print("List of Courses : ", self.courses)
+			print()
+
+    
+	def put_to_file(self) :
+			''' Appends this perticular course to the file 'course_data.csv'. '''
+			String = [self.id, self.name, str(self.email),"+".join(self.courses)]
+			F = open(data_file_paths[professor], mode='a')
+			F.write(",".join(String) + "\n")
+			F.close()
+
+
+class batch :
+    ''' Class that contains details of a perticular batch '''
+
+    def __init__(self) :
+        ''' Defaults all data elements to None '''   
+        self.id = None
+        self.name = None
+        self.Mandatory_courses = None
+        self.Optional_courses = None
+
+    @classmethod
+    def new_batch(cls,name,MC=[],OC=[]):
+        ''' Creates a new course with minimum details. Calls generate_batch_id() to generate a new id '''
+        obj = batch()
+        obj.name = str(name)
+        obj.id = str(generate_batch_id())
+        obj.Mandatory_courses = MC
+        obj.Optional_courses = OC
+        return obj
+    
+    @classmethod
+    def existing_batch(cls,incoming_id,name,MC=[],OC=[]) :
+        ''' Creates a course object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
+        obj = batch()
+        obj.id = str(incoming_id)
+        obj.name = str(name)
+        obj.Mandatory_courses = list(MC)
+        obj.Optional_courses = list(OC)
+        return obj
+
+    def display_details(self) :
+        ''' Displays details of this perticular course '''
+        print("\nDetails of Course : ")
+        print("%-13s : %s"%("Id",self.id))
+        print("%-13s : %s"%("Name",self.name))
+        print("\nMandatory Courses : " , self.Mandatory_courses)
+        print("Optional Courses : ", self.Optional_courses)
+        print()
+
+    
+    def put_to_file(self) :
+        ''' Appends this perticular course to the file 'course_data.csv'. '''
+        String = [self.id, self.name,"+".join(self.Mandatory_courses),"+".join(self.Optional_courses)]
+        F = open(data_file_paths[batch], mode='a')
+        F.write(",".join(String) + "\n")
+        F.close()
+
+		
 
