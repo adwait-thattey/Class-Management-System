@@ -23,13 +23,18 @@
         4. Creting Schedule for Exams
         5. Allocating Classroom to individual students during Exam.`
         6. GUI based interface (Low Priority)
+        
+### Individual Tasks  : ###
+
+        Adwait and Ankur : Working on genetic Algorithm for time-table and exam scheduling
+        Aaquib and Brijesh : Developing UI(CLI and GUI using Flask) , Passwords handling and storage(Encryption)
+        Bittu and Harshith : Handling the entire data module and testing of various other modules and entire project.
 
 ### Milestones : ###
-        1. Researching , Learning and implementing various algorithms for generating Time-Table.
-        2. Learning MySql language for storing data of Studemts,Faculties,etc. in database
+        1. Researching , Learning and implementing genetic algoeithms for generating Time-Table
         3. Parallely implementing all features seperately.
         4. Combining all features and joining them together.
         5. Debugging the project
         6. Creating User-Interface (Command Line Interface)
-        7. Creating User-Interface (GUI : Either Python or Web-Gui using Electron)
+        7. Creating User-Interface (GUI : Either Python or Web-Gui using Flask)
 
