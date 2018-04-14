@@ -37,4 +37,3 @@
         5. Debugging the project
         6. Creating User-Interface (Command Line Interface)
         7. Creating User-Interface (GUI : Either Python or Web-Gui using Flask)
-
