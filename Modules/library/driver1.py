@@ -2,7 +2,7 @@
 
 #!/usr/bin/python3
 
-from Data import *
+from utilities import *
 
 if __name__ == '__main__':
     clear_course_file()
@@ -20,5 +20,7 @@ if __name__ == '__main__':
     #print(C1.id, C2.id, C3.id, C4.id)
 
     AC = get_all_courses()
-    for i in AC:
-        i.display_details()
+    V = next(AC)    
+    while AC:
+        V.display_details()
+        V = next(AC)

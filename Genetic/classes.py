@@ -1,9 +1,10 @@
-import constants.py
-
+import constants
+import ../Modules/library/utilities.py
 class chromosome_ka_baap :
     course_durations = dict()
-    for i in constants.file_paths["data_utilities"] :
-        
+    #import constants.file_paths["data_utilities"] :
+    
+    course_iterator = utilities.get_all_courses();
 
 
 

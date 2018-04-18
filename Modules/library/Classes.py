@@ -40,7 +40,7 @@ class classroom :
     def put_to_file(self) :
         ''' Appends this perticular classroom to the file 'classroom_data.csv'. '''
         String = [self.id, self.name, str(self.max_capacity)]
-        F = open(data_file_paths[classroom], mode='a')
+        F = open(data_file_paths["classroom"], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
 
@@ -69,7 +69,7 @@ class student:
         obj = student()
         obj.name = name
         obj.rollno = str(get_new_roll())
-        obj.email = name + rollno + "@iiits.in"
+        obj.email = name + obj.rollno + "@iiits.in"
         obj.batch = batch
         obj.curr_courses = obj.curr_courses.extend(curr_courses)
         obj.past_courses = obj.past_courses.extend(past_courses)
@@ -104,7 +104,7 @@ class student:
 
     def put_in_file(self):
         Student = [self.rollno,self.name,self.email,self.batch,"+".join(self.curr_courses),"+".join(self.past_courses)]
-        file = open(data_file_paths[student],mode = "a")
+        file = open(data_file_paths["student"],mode = "a")
         file.write(",".join(Student) + "\n")
         file.close()
 
@@ -164,7 +164,7 @@ class course :
     def put_to_file(self) :
         ''' Appends this perticular course to the file 'course_data.csv'. '''
         String = [self.id, self.name, str(self.max_capacity), self.professor, str(self.no_of_classes_per_week),"+".join(self.dependent_courses),"+".join(self.dependent_classrooms)]
-        F = open(data_file_paths[course], mode='a')
+        F = open(data_file_paths["course"], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
 
@@ -215,7 +215,7 @@ class professor :
 	def put_to_file(self) :
 			''' Appends this perticular course to the file 'course_data.csv'. '''
 			String = [self.id, self.name, str(self.email),"+".join(self.courses)]
-			F = open(data_file_paths[professor], mode='a')
+			F = open(data_file_paths["professor"], mode='a')
 			F.write(",".join(String) + "\n")
 			F.close()
 
@@ -263,7 +263,7 @@ class batch :
     def put_to_file(self) :
         ''' Appends this perticular course to the file 'course_data.csv'. '''
         String = [self.id, self.name,"+".join(self.Mandatory_courses),"+".join(self.Optional_courses)]
-        F = open(data_file_paths[batch], mode='a')
+        F = open(data_file_paths["batch"], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
 
