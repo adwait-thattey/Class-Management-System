@@ -1,0 +1,5 @@
+000,Name,Max Capacity,Professor,Classes Per Week,Dependent Courses,Dependent Classrooms
+001,BEC,100,004,3,,
+002,ITWS,200,003,5,,
+003,BEC-LAB,200,001,1,001,306
+012,Comms-2,25,002,3,001+003,103
