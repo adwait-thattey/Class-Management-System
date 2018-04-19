@@ -2,6 +2,7 @@ from Classes import classroom
 from Classes import student
 from Classes import course
 from Classes import professor
+from Classes import batch
 from Classes import data_file_paths
 
 def get_classroom(classroom_id) :
