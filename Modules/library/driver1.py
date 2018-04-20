@@ -25,5 +25,6 @@ if __name__ == '__main__':
 #        V.display_details()
 #        V = next(AC)
 
-    B1 = batch.existing_batch("001","B1",["001","002"],[])
-    B1.put_to_file()
+    I = get_all_batches()
+    while 1:
+        next(I).display_details()

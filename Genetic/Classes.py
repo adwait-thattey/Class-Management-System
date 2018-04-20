@@ -236,7 +236,7 @@ class batch :
 
     @classmethod
     def new_batch(cls,name,MC=[],OC=[]):
-        ''' Creates a new course with minimum details. Calls generate_batch_id() to generate a new id '''
+        ''' Creates a new Batch with minimum details. Calls generate_batch_id() to generate a new id '''
         obj = batch()
         obj.name = str(name)
         obj.id = str(generate_batch_id())
@@ -246,7 +246,7 @@ class batch :
     
     @classmethod
     def existing_batch(cls,incoming_id,name,MC=[],OC=[]) :
-        ''' Creates a course object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
+        ''' Creates a Batch object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
         obj = batch()
         obj.id = str(incoming_id)
         obj.name = str(name)
@@ -255,8 +255,8 @@ class batch :
         return obj
 
     def display_details(self) :
-        ''' Displays details of this perticular course '''
-        print("\nDetails of Course : ")
+        ''' Displays details of this perticular batch '''
+        print("\nDetails of Batch : ")
         print("%-13s : %s"%("Id",self.id))
         print("%-13s : %s"%("Name",self.name))
         print("\nMandatory Courses : " , self.Mandatory_courses)
@@ -265,7 +265,7 @@ class batch :
 
     
     def put_to_file(self) :
-        ''' Appends this perticular course to the file 'course_data.csv'. '''
+        ''' Appends this perticular Batch to the file 'course_data.csv'. '''
         String = [self.id, self.name,"+".join(self.Mandatory_courses),"+".join(self.Optional_courses)]
         F = open(data_file_paths["batch"], mode='a')
         F.write(",".join(String) + "\n")

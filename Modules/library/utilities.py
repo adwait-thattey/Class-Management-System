@@ -187,9 +187,57 @@ def get_all_professors() :
     F.close()
 
     for i in all_ids : # call get_professor() repetedly with different ID
-        print(i)
+        #print(i)
         yield get_professor(i)
 
+def get_batch(batch_id) :
+    ''' Returns a batch class object by filling it with details of the id of the professor having same ID in the file '''
+    data = []
+    try:
+        F = open(data_file_paths["batch"], mode='r')
+    except:
+        print("Error in opening file")
+        exit()
+
+    F.readline()  # To skip the first line as fire line is just information
+
+    for line in F:
+        line = line.strip('\n').split(",")
+        # as ID can be both integer or string
+        if(batch_id == line[0] or batch_id == int(line[0])):
+            data = line
+            break
+    else:
+        print("professor not found")
+        return None
+
+    # calling class method of professor to build the object
+
+    return_batch = batch.existing_batch(data[0], data[1], data[2].split('+'), data[3].split('+'))
+
+    return return_batch
+    
+
+def get_all_batches() :
+    ''' Returns all batches (generator function)'''
+
+    all_ids = []
+    try:
+        F = open(data_file_paths["batch"], mode='r')
+    except:
+        print("Error in opening file")
+        exit()
+
+    F.readline()  # To skip the first line as fire line is just information
+
+    for line in F:  # get IDs of all professors present in file
+        all_ids.append(int(line.split(',')[0]))
+
+    F.close()
+
+    for i in all_ids:  # call get_professor() repetedly with different ID
+        #print(i)
+        yield get_batch(i)
             
 
 def clear_professor_file() :
@@ -215,4 +263,9 @@ def clear_classroom_file() :
     ''' Truncates the file , then writes the first information line and closes the file '''
     F = open(data_file_paths["classroom"], 'w')
     F.write("000,Name,Max Capacity\n")
+    F.close()
+
+def clear_batch_file() :
+    F = open(data_file_paths["batch"], 'w')
+    F.write("000,Name,M_C,O_C,\n")
     F.close()
