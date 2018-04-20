@@ -117,7 +117,7 @@ def get_course(course_id) :
         return None
     
     # calling class method of course to build the object
-    return_course = course.existing_course(data[0],data[1],int(data[2]),data[3],int(data[4]),data[5].split('+'),data[6].split('+'))
+    return_course = course.existing_course(data[0],data[1],int(data[2]),data[3],int(data[4]),data[5].split('+'),data[6].split('+'),data[7])
     
     return return_course
 

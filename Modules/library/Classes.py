@@ -120,10 +120,11 @@ class course :
         self.no_of_classes_per_week = None
         self.dependent_courses = None
         self.dependent_classrooms = None
+        self.time_duration = None
 
 
     @classmethod
-    def new_course(cls,name,max_capacity,professor,no_of_classes_per_week):
+    def new_course(cls,name,max_capacity,professor,no_of_classes_per_week,time_duration):
         ''' Creates a new course with minimum details. Calls generate_course_id() to generate a new id '''
         obj = course()
         obj.name = str(name)
@@ -133,10 +134,11 @@ class course :
         obj.id = str(generate_course_id())
         obj.dependent_courses = []
         obj.dependent_classrooms = []
+        obj.time_duration = time_duration
         return obj
     
     @classmethod
-    def existing_course(cls,incoming_id,name,max_capacity,professor,no_of_classes_per_week,D_courses,D_classrooms) :
+    def existing_course(cls,incoming_id,name,max_capacity,professor,no_of_classes_per_week,D_courses,D_classrooms,time_duration) :
         ''' Creates a course object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
         obj = course()
         obj.id = str(incoming_id)
@@ -146,6 +148,7 @@ class course :
         obj.no_of_classes_per_week = int(no_of_classes_per_week)
         obj.dependent_courses = list(D_courses)
         obj.dependent_classrooms = list(D_classrooms)
+        obj.time_duration = time_duration
         return obj
 
     def display_details(self) :
@@ -158,12 +161,13 @@ class course :
         print("%-13s : %s" % ("Classes/Week", self.no_of_classes_per_week))
         print("\nDependent On Courses : " , self.dependent_courses)
         print("Dependent on classrooms : ", self.dependent_classrooms)
+        print("Duration of Classe : ",self.time_duration)
         print()
 
     
     def put_to_file(self) :
         ''' Appends this perticular course to the file 'course_data.csv'. '''
-        String = [self.id, self.name, str(self.max_capacity), self.professor, str(self.no_of_classes_per_week),"+".join(self.dependent_courses),"+".join(self.dependent_classrooms)]
+        String = [self.id, self.name, str(self.max_capacity), self.professor, str(self.no_of_classes_per_week),"+".join(self.dependent_courses),"+".join(self.dependent_classrooms),str(self.time_duration)]
         F = open(data_file_paths["course"], mode='a')
         F.write(",".join(String) + "\n")
         F.close()
