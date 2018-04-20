@@ -203,14 +203,14 @@ class fitness_functions :
         return True
 
 
-
-Dt = details()
-#Dt.disp_all_details()
-Chr = chromosome(Dt)
-Chr.display_timeline("timeline1")
-# Fittness = fitness_functions(Dt,Chr)
-# print(Fittness.check_same_course())
-# print(Fittness.check_professor_clash())
-# print(Fittness.check_batch_clash())
-Chr.calc_fitness(Dt)
-Chr.display_details()
+if __name__=="__main__" :
+    Dt = details()
+    #Dt.disp_all_details()
+    Chr = chromosome(Dt)
+    Chr.display_timeline("timeline1")
+    # Fittness = fitness_functions(Dt,Chr)
+    # print(Fittness.check_same_course())
+    # print(Fittness.check_professor_clash())
+    # print(Fittness.check_batch_clash())
+    Chr.calc_fitness(Dt)
+    Chr.display_details()
