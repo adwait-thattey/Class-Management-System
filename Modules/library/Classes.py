@@ -1,5 +1,9 @@
 from id_generators import *
 
+from passlib.hash import pbkdf2_sha256
+
+hash_name = "pbkdf2_sha256" 
+
 
 class classroom :
     ''' Class that contains details of a particular classroom '''
@@ -56,10 +60,10 @@ class student:
 
     def display(self):
         print("Details of the student : ")
-        print("%-13s : %s"%("Roll no",self.rollno))
-        print("%-13s : %s"%("Roll no",self.name))
-        print("%-13s : %s"%("Roll no",self.email))
-        print("%-13s : %s"%("Roll no",self.batch))
+        print("%-13s : %s"%("Roll no : ",self.rollno))
+        print("%-13s : %s"%("Name : ",self.name))
+        print("%-13s : %s"%("Email : ",self.email))
+        print("%-13s : %s"%("Batch : ",self.batch))
         print("\n Current courses : ", self.curr_courses)
         print("\n Past courses : ", self.past_courses)
 
@@ -69,14 +73,15 @@ class student:
         obj = student()
         obj.name = name
         obj.rollno = str(get_new_roll())
-        obj.email = name + rollno + "@iiits.in"
+        obj.email = "s_" + name.split()[0].lower() + obj.id + "@iiits.in"
         obj.batch = batch
         obj.curr_courses = obj.curr_courses.extend(curr_courses)
         obj.past_courses = obj.past_courses.extend(past_courses)
+        obj.password = name.split()[0].lower()
         return obj
 
     @classmethod
-    def existing_student(cls,rollno,name,email,batch,curr_courses,past_courses):
+    def existing_student(cls,rollno,name,email,batch,curr_courses,past_courses,password):
         obj = student()
         obj.rollno = str(rollno)
         obj.name = str(name)
@@ -84,8 +89,12 @@ class student:
         obj.batch = batch
         obj.curr_courses = curr_courses
         obj.past_courses = past_courses
+        obj.password = password
+
         return obj
 
+    def encrypt_pass(password):
+        self.password = hash_name.hash(password)
 
     def add_curr_courses(self,course_id):
         if course_id not in self.past_courses and course_id not in self.curr_courses:
@@ -96,14 +105,8 @@ class student:
         if course_id not in self.curr_courses and course_id not in self.past_courses:
             self.past_courses.append(course_id)
 
-    #def remove_curr_courses(self,course_id):
-    #   pass:
-
-    #def remove_past_courses(self,course_id):
-    #   pass:
-
-    def put_in_file(self):
-        Student = [self.rollno,self.name,self.email,self.batch,"+".join(self.curr_courses),"+".join(self.past_courses)]
+    def put_to_file(self):
+        Student = [self.rollno,self.name,self.email,self.batch,"+".join(self.curr_courses),"+".join(self.past_courses),self.password]
         file = open(data_file_paths[student],mode = "a")
         file.write(",".join(Student) + "\n")
         file.close()
@@ -186,17 +189,19 @@ class professor :
 		if(len(obj.id)!=3) :
 			print("Number of characters in ID are not equal to 3. Will cause problems with email")
 			exit()
-		obj.email = name.split()[0].lower() + obj.id + "@iiits.in"
+		obj.email = "p_" + name.split()[0].lower() + obj.id + "@iiits.in"
+        obj.password = id + name.split()[0].lower()
 		obj.courses = []
 
 		return obj
 
 	@classmethod
-	def existing_professor(cls,incoming_id,name,email,courses):
+	def existing_professor(cls,incoming_id,name,email,password,courses):
 		obj = professor()
 		obj.name = str(name)
 		obj.id = str(incoming_id)
 		obj.email = str(email)
+        obj.password = password
 		obj.courses = list(courses)
 
 		return obj
@@ -214,7 +219,7 @@ class professor :
     
 	def put_to_file(self) :
 			''' Appends this perticular course to the file 'course_data.csv'. '''
-			String = [self.id, self.name, str(self.email),"+".join(self.courses)]
+			String = [self.id, self.name, str(self.email),"+".join(self.courses),self.password]
 			F = open(data_file_paths[professor], mode='a')
 			F.write(",".join(String) + "\n")
 			F.close()
