@@ -9,7 +9,7 @@ def get_classroom(classroom_id) :
     ''' Returns a course class object by filling it with details of the id of the course having same ID in the file '''
     data =[]
     try:
-        F = open(data_file_paths[course], mode='r')
+        F = open(data_file_paths["classroom"], mode='r')
     except:
         print("Error in opening file")
         exit()
@@ -202,7 +202,7 @@ def clear_professor_file() :
 def clear_course_file() :
     ''' Truncates the file , then writes the first information line and closes the file '''
     F = open(data_file_paths["course"], 'w')
-    F.write("000,Name,Max Capacity,Professor,Classes Per Week,Dependent Courses,Dependent Classrooms\n")
+    F.write("000,Name,Max Capacity,Professor,Classes Per Week,Dependent Courses,Dependent Classrooms,Time Duration\n")
     F.close()
 
 
