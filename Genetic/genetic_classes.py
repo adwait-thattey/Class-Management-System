@@ -165,16 +165,20 @@ class fitness_functions :
         self.det = det
 
     def check_same_course(self) :
+        fitness = 0
         for i in self.chrmo.timeline :
             if(i==None) : continue
             elif(i=="Break") : continue    
             elif(len(i)<=1) : continue
             for j in i :
-                if(i.count(j) > 1) : return False
+                if(i.count(j) > 1) : 
+                    fitness-=1
+                    break
 
-        return True                
+        return fitness                
 
     def check_professor_clash(self) :
+        fitness = 0
         for i in self.chrmo.timeline :
             if(i==None) : continue
             elif(i=="Break") : continue    
@@ -182,13 +186,15 @@ class fitness_functions :
             cur_profs = list()
             for j in i :
                 if(self.det.course_details[j]["professor"] in cur_profs) : 
-                    print("clash at " + str(self.chrmo.timeline.index(i)))
-                    return False
+                    #print("clash at " + str(self.chrmo.timeline.index(i)))
+                    fitness-=1
+                    break
                 else : cur_profs.append(self.det.course_details[j]["professor"])
 
-        return True  
+        return fitness  
 
     def check_batch_clash(self) :
+        fitness = 0
         for i in self.chrmo.timeline :
             if(i==None) : continue
             elif(i=="Break") : continue    
@@ -198,9 +204,10 @@ class fitness_functions :
                 for k in i :
                     if(k!=j and k in self.det.batch_details[B]) : 
                         print("clash at " + str(self.chrmo.timeline.index(i)))
-                        return False
+                        fitness-=1
+                        break
 
-        return True
+        return fitness
 
 
 if __name__=="__main__" :
