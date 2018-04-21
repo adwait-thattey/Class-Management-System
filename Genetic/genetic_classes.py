@@ -54,7 +54,7 @@ class details :
 
 class chromosome :
     ''' A class that contains 1 chromosome for genetic algorithms '''
-    def __init__(self , main_data) :
+    def __init__(self) :
         self.timeline = [None]*20*6 # Each time-slot is of half hour
         self.break_points = [8,9,28,29,48,49,68,69,88,89,108,109]
         self.fitness_list = [0]*3
@@ -66,8 +66,9 @@ class chromosome :
         for i in range(len(self.timeline)) :
             if i in self.break_points:
                 self.timeline[i] = "Break"
-       
-        
+
+
+    def make_course_times(self,main_data) :
         for i in main_data.course_details.keys() :
             self.course_times[i] = list()
             no_of_points_to_be_generated = main_data.course_details[i]["no_of_classes_per_week"]
@@ -95,9 +96,9 @@ class chromosome :
                 else :
                     self.course_times[i].extend(list(range(N,N+main_data.course_details[i]["time_slots_required"])))
                     no_of_points_to_be_generated -= 1
-                            
 
 
+    def make_timeline(self) :
         # Now make the timeline based on course times
         for i in self.course_times.keys() :
             for j in self.course_times[i] :
@@ -107,7 +108,7 @@ class chromosome :
                     self.timeline[j].append(i)
 
         for i in range(len(self.timeline)) :
-            if self.timeline[i]==None : self.vacant_slots.append(i) 
+            if self.timeline[i]==None : self.vacant_slots.append(i)
 
 
     def display_course_times(self) :
@@ -116,6 +117,8 @@ class chromosome :
             print(i , end=" ")
             print(self.course_times[i])
         print("----------")    
+    
+    
     def display_timeline(self , name="timeline") :
         # TimeLine is always written to a CSV File for easier analysis
         Days=["Mon","Tue","Wed","Thurs","Fri","Sat"]
@@ -203,7 +206,7 @@ class fitness_functions :
                 B = self.det.course_details[j]["batch"]
                 for k in i :
                     if(k!=j and k in self.det.batch_details[B]) : 
-                        print("clash at " + str(self.chrmo.timeline.index(i)))
+                        # print("clash at " + str(self.chrmo.timeline.index(i)))
                         fitness-=1
                         break
 
@@ -213,7 +216,9 @@ class fitness_functions :
 if __name__=="__main__" :
     Dt = details()
     #Dt.disp_all_details()
-    Chr = chromosome(Dt)
+    Chr = chromosome()
+    Chr.make_course_times(Dt)
+    Chr.make_timeline()
     Chr.display_timeline("timeline1")
     # Fittness = fitness_functions(Dt,Chr)
     # print(Fittness.check_same_course())
