@@ -189,7 +189,7 @@ class fitness_functions :
             cur_profs = list()
             for j in i :
                 if(self.det.course_details[j]["professor"] in cur_profs) : 
-                    #print("clash at " + str(self.chrmo.timeline.index(i)))
+                    # print("clash at " + str(self.chrmo.timeline.index(i)))
                     fitness-=1
                     break
                 else : cur_profs.append(self.det.course_details[j]["professor"])
@@ -219,10 +219,11 @@ if __name__=="__main__" :
     Chr = chromosome()
     Chr.make_course_times(Dt)
     Chr.make_timeline()
+    Chr.calc_fitness(Dt)
     Chr.display_timeline("timeline1")
     # Fittness = fitness_functions(Dt,Chr)
     # print(Fittness.check_same_course())
     # print(Fittness.check_professor_clash())
     # print(Fittness.check_batch_clash())
-    Chr.calc_fitness(Dt)
+    
     Chr.display_details()
