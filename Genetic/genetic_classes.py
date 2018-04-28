@@ -21,6 +21,7 @@ class details :
             except StopIteration :
                 break
 
+        # self.disp_all_details()
         batch_iterator = utilities.get_all_batches()
         I = next(batch_iterator)
 

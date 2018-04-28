@@ -14,18 +14,22 @@ class observer :
             self.parents.append(chrmo)
         self.parents.sort(key = lambda x: x.fitness , reverse=True)
 
-        # self.print_fitness()
+        self.print_fitness()
 
     def generate_timetable(self) :
             count=0
             while self.parents[0].fitness<0 :
                 self.perform_crossover()
+                self.print_fitness()
                 count+=1
-                # if self.parents[self.number_of_parents-2].fitness - self.parents[2].fitness < 2 :
+                if self.parents[2].fitness - self.parents[self.number_of_parents-2].fitness < 2:
+                    print("Mutation Required!")
                     # self.perform_mutation()
+                    break
 
-            self.parents[0].display_timeline("timeline")
-            print("Timeline Created \n Iterations Required :" + str(count))
+            else :
+                self.parents[0].display_timeline("timeline")
+                print("Timeline Created \n Iterations Required :" + str(count))
     def print_fitness(self , chrms = None) :
         if chrms==None : chrms = self.parents
         print()
