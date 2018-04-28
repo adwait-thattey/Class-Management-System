@@ -1,8 +1,8 @@
 import genetic_classes
 
 class genetic_algorithm() :
-    def __init__(self,det,no_of_crossover_points,no_of_mutation_points) :
-        self.details = det
+    def __init__(self,no_of_crossover_points,no_of_mutation_points) :
+        self.details = genetic_classes.details()
         self.no_of_crossover_points = no_of_crossover_points
         self.no_of_mutation_points = no_of_mutation_points
 
@@ -51,7 +51,8 @@ class genetic_algorithm() :
 
 
 if __name__=="__main__" :
-    det = genetic_classes.details()
+    algo = genetic_algorithm(5,5)
+    # det = genetic_classes.details()
     # P1 = genetic_classes.chromosome()
     # P2 = genetic_classes.chromosome()
     # P1.make_course_times(det)
@@ -70,16 +71,16 @@ if __name__=="__main__" :
     Parents = list()
     for i in range(10):
         Chr = genetic_classes.chromosome()
-        Chr.make_course_times(det)
+        Chr.make_course_times(algo.details)
         Chr.make_timeline()
-        Chr.calc_fitness(det)
+        Chr.calc_fitness(algo.details)
         Parents.append(Chr)
 
     Parents.sort(key = lambda x: x.fitness , reverse=True)
     for i in range(len(Parents)):
         print(Parents[i].fitness, end=" ")
     print()
-    algo = genetic_algorithm(det,5,5)
+    
     children = list()
     
     for i in range(5) :
