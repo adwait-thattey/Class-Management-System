@@ -1,4 +1,4 @@
-data_file_paths = {"course":"../Modules/data/course_data.csv" , "student":"../Modules/data/student_data.csv" , "professor":"../Modules/data/professor_data.csv" , "classroom" : "../Modules/data/classroom_data.csv" , "batch":"../Modules/data/batch_data.csv"}
+data_file_paths = {"course":"../data/course_data.csv" , "student":"../data/student_data.csv" , "professor":"../data/professor_data.csv" , "classroom" : "../data/classroom_data.csv" , "batch":"../data/batch_data.csv"}
 
 
 def generate_course_id():
