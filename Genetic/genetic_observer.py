@@ -14,8 +14,18 @@ class observer :
             self.parents.append(chrmo)
         self.parents.sort(key = lambda x: x.fitness , reverse=True)
 
-        self.print_fitness()
+        # self.print_fitness()
 
+    def generate_timetable(self) :
+            count=0
+            while self.parents[0].fitness<0 :
+                self.perform_crossover()
+                count+=1
+                # if self.parents[self.number_of_parents-2].fitness - self.parents[2].fitness < 2 :
+                    # self.perform_mutation()
+
+            self.parents[0].display_timeline("timeline")
+            print("Timeline Created \n Iterations Required :" + str(count))
     def print_fitness(self , chrms = None) :
         if chrms==None : chrms = self.parents
         print()
@@ -29,6 +39,8 @@ class observer :
         children.extend(self.g_algo.crossover(self.parents[0] , self.parents[1]))
         children.extend(self.g_algo.crossover(self.parents[0] , self.parents[2]))
         children.extend(self.g_algo.crossover(self.parents[2] , self.parents[1]))
+
+
         
         for i in range(self.number_of_parents//2) :
             children.extend(self.g_algo.crossover(self.parents[i] , self.parents[self.number_of_parents//2 + i]))
@@ -45,17 +57,17 @@ class observer :
         # children.extend(self.g_algo.crossover(self.parents[self.number_of_parents-3] , self.parents[self.number_of_parents-1]))
         # children.extend(self.g_algo.crossover(self.parents[self.number_of_parents-1] , self.parents[self.number_of_parents-2]))
 
-        self.print_fitness(children)
+        # self.print_fitness(children)
         
         children.sort(key = lambda x : x.fitness , reverse=True)
 
-        self.print_fitness(children)
+        # self.print_fitness(children)
 
         self.parents = list(self.select_best_chromosomes(self.parents , children , self.number_of_parents))
 
         del(children)
 
-        self.print_fitness()
+        # self.print_fitness()
 
 
     def select_best_chromosomes(self , chl1 , chl2 , number=None) :
@@ -95,4 +107,4 @@ class observer :
 
 if __name__=="__main__" :
     obs = observer()
-    obs.perform_crossover()
+    obs.generate_timetable()
