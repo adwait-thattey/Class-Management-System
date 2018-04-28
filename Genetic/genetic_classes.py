@@ -153,10 +153,14 @@ class chromosome :
 
     def calc_fitness(self,det) :
         F = fitness_functions(det,self)
-        self.fitness_list[0] = F.check_same_course()
-        self.fitness_list[1] = F.check_professor_clash()
-        self.fitness_list[2] = F.check_batch_clash()
+        # self.fitness_list[0] = F.check_same_course()
+        # self.fitness_list[1] = F.check_professor_clash()
+        # self.fitness_list[2] = F.check_batch_clash()
+        
+        self.fitness_list = F.check_total_fitness()
+        # print(self.fitness_list)
         self.fitness = sum(self.fitness_list)
+
 
 
 
@@ -166,6 +170,16 @@ class fitness_functions :
     def __init__(self , det , chrmo) :
         self.chrmo = chrmo
         self.det = det
+
+    def check_total_fitness(self) :
+        fit = [0]*len(self.chrmo.fitness_list)
+        fit[0] = self.check_same_course()
+        fit[1] = self.check_professor_clash()
+        fit[2] = self.check_batch_clash()
+
+        # print(fit)
+        return fit
+        
 
     def check_same_course(self) :
         fitness = 0
