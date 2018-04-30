@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<h1 class="header-primary">
+		LIST OF STUDENTS	
+
+	</h1>
+	{% for i in student_data %}
+		<div>
+			<ul class="list-group-row">
+					{% if (i[0] != student_data[0][0]) %}
+						<li class="list-group-item col-md-6 border-style"><a href="unique_student/{{i[0]}}">{{i[0]}}</a></li>
+					{% else %}
+					<li class="list-group-item col-md-6 border-style">{{i[0]}}</li>
+					{% endif %}
+					<li class="list-group-item col-md-6 border-style">{{i[1]}}</li>
+			</ul>	
+		</div>
+	{% endfor %}
+	<div class="data-container">
+		&nbsp;
+	</div>
+{% endblock %}

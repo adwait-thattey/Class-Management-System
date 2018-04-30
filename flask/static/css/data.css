@@ -1,6 +1,6 @@
 .header-primary {
-	padding-top: 5%;
-	padding-bottom: 5%;
+	padding-top: 3%;
+	padding-bottom: 3%;
 	text-align: center;
 }
 
@@ -11,4 +11,8 @@
 .border-style {
 	border: 1px solid silver;
 	border-collapse: collapse;
+}
+
+.data-container {
+	padding-bottom: 5%;
 }

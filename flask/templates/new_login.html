@@ -3,26 +3,21 @@
 {% block body %}
 	{% from "includes/_formhelper.html" import render_field %}
 
-  <form method="POST" action="">
+  <form method="POST">
       <div class="form-group">
-        {{render_field(form.name, class_="form-control")}}
+          <label for="inputEmail">Name</label>
+          <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="name">
       </div>
       <div class="form-group">
-        {{render_field(form.email, class_="form-control")}}
+          <label for="inputEmail">Email</label>
+          <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
       </div>
       <div class="form-group">
-        {{render_field(form.username, class_="form-control")}}
+          <label for="inputPassword">Password</label>
+          <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
       </div>
-      <div class="form-group">
-        {{render_field(form.password, class_="form-control")}}
-      </div>
-      <div class="form-group">
-        {{render_field(form.confirm, class_="form-control")}}
-      </div>
-      <p>
-        <input type="submit" value="Submit" class="btn btn-primary">
-      </p>
-	</form>
+      <button type="submit" class="btn btn-primary">Login</button>
+  </form>
 
 
 
