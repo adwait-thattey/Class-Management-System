@@ -4,7 +4,7 @@ from data import *
 from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
-
+hash = '$5$rounds=535000$AgBLha7CDXsU6GY0$KNLXbYkhKX8VeVSEbQUFVGtR89NiDwv5e3XH3QpFfz4'
 num = get_TT_data()
 num = [i.split(',') for i in num]
 course_arr = []
@@ -71,7 +71,7 @@ def index():
 		email = request.form['email']
 		password = request.form['password']
 
-		if (email == 'iiits-admin' and password == 'hithere'):
+		if (email == 'iiits-admin' and sha256_crypt.verify(hash, password):
 
 			return render_template('home.html')
 
