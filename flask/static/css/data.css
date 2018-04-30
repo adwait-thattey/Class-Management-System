@@ -1,0 +1,14 @@
+.header-primary {
+	padding-top: 5%;
+	padding-bottom: 5%;
+	text-align: center;
+}
+
+.header-class {
+	width: 100%;
+}
+
+.border-style {
+	border: 1px solid silver;
+	border-collapse: collapse;
+}
