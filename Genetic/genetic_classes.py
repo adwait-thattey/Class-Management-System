@@ -152,6 +152,10 @@ class chromosome :
         print("no of vacant slots :" , self.vacant_slots)
         print("------")
 
+    def display_problem_creators(self,det) :
+        F = fitness_functions(det,self)
+        F.return_problem_creators()
+
     def calc_fitness(self,det) :
         F = fitness_functions(det,self)
         # self.fitness_list[0] = F.check_same_course()
@@ -226,6 +230,80 @@ class fitness_functions :
                         break
 
         return fitness
+
+    def return_problem_creators(self) :
+        course_fitness = self.check_same_course()
+        prof_fitness = self.check_professor_clash()
+        batch_fitness = self.check_batch_clash()
+        course_problem_creators = dict()
+        prof_problem_creators = dict()
+        batch_problem_creators = dict()
+        
+        if course_fitness < 0 :
+            course_problem_creators = self.get_course_problem_creators()
+        if prof_fitness < 0:
+            prof_problem_creators = self.get_prof_problem_creators()
+        if batch_fitness < 0:
+            batch_problem_creators = self.get_batch_problem_creators()
+
+        print(course_problem_creators)
+        print(prof_problem_creators)
+        print(batch_problem_creators)
+
+    def get_course_problem_creators(self) :
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)):
+            if(self.chrmo.timeline[i] == None):
+                continue
+            elif(self.chrmo.timeline[i] == "Break"):
+                continue
+            elif(len(self.chrmo.timeline[i]) <= 1):
+                continue
+            for j in self.chrmo.timeline[i]:
+                if(self.chrmo.timeline[i].count(j) > 1):
+                    problem_creators[i] = j
+                    break
+
+        return problem_creators        
+
+    def get_prof_problem_creators(self) :
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)):
+            if(self.chrmo.timeline[i] == None):
+                continue
+            elif(self.chrmo.timeline[i] == "Break"):
+                continue
+            elif(len(self.chrmo.timeline[i]) <= 1):
+                continue
+            cur_profs = list()
+            for j in self.chrmo.timeline[i]:
+                if(self.det.course_details[j]["professor"] in cur_profs):
+                    # print("clash at " + str(self.chrmo.timeline.index(i)))
+                    problem_creators[i] = j
+                    break
+                else:
+                    cur_profs.append(self.det.course_details[j]["professor"])
+
+        return problem_creators
+
+
+    def get_batch_problem_creators(self) : 
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)) :
+            if(self.chrmo.timeline[i]==None) : continue
+            elif(self.chrmo.timeline[i]=="Break") : continue    
+            elif(len(self.chrmo.timeline[i])<=1) : continue
+            for j in self.chrmo.timeline[i]:
+                B = self.det.course_details[j]["batch"]
+                for k in self.chrmo.timeline[i]:
+                    if(k!=j and k in self.det.batch_details[B]) : 
+                        # print("clash at " + str(self.chrmo.timeline.index(i)))
+                        problem_creators[i] = j
+                        break
+
+        return problem_creators       
+
+
 
 
 if __name__=="__main__" :

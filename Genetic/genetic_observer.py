@@ -24,6 +24,10 @@ class observer :
                 count+=1
                 if self.parents[2].fitness - self.parents[self.number_of_parents-2].fitness < 2:
                     print("Mutation Required!")
+                    k=0
+                    for node in self.parents :
+                        print("node" + str(k))
+                        node.display_problem_creators(self.g_algo.details)
                     # self.perform_mutation()
                     break
 
