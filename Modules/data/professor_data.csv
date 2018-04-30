@@ -1,17 +1,12 @@
-000,name,email,Courses
-001,Shehasis Mukharjee,shehasis001@iiits.in,009
-002,Divya Raj,divya002@iiits.in,012
-003,Gowhri Subramanian,gowhri003@iiits.in,002
-004,Paul Braniard,paul004@iiits.in,001
-005,Raja Vara Prasad,raja.vara@iiits.in,008
-006,Joe Tuin,tuin005@iiits.in,006
-007,Kottam Raju,kottam@iiits.in,007
-008,Amitava Das,amitava@iiits.in,004
-009,Chaitanya,chaitya@iiits.in,005
-010,lab_assistant,lab010@iiits.in,003
-011,Srivalli,srivall011@iiits.in,010
-012,Rajendra Prasath,rajendra012@iiits.in,011
-013,Uma Gurmila,umag@iiits.in,013
-014,Praveen Alpati,praveen014@iiits.in,014
-
-
+0,name,email,Courses
+1,Shehasis Mukharjee,shehasis001@iiits.in,16+9+24
+2,Divya Raj,divya002@iiits.in,19+12
+3,Gowhri Subramanian,gowhri003@iiits.in,15+2
+4,Paul Braniard,paul004@iiits.in,7+1
+5,Raja Vara Prasad,raja.vara@iiits.in,20+8+21+25
+6,Joe Tuin,joetuin@iiits.in,6+18
+7,Amitava Das,amitava@iiits.in,22+4
+8,lab_assistant,lab010@iiits.in,23+3
+9,Srivalli,srivall011@iiits.in,10
+10,Rajendra Prasath,rajendra012@iiits.in,17+5+11
+11,Praveen Alpati,praveen014@iiits.in,13+14

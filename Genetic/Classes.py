@@ -24,6 +24,8 @@ class classroom :
         ''' Creates a classroom object with existing details passed as parameters. generate_classroom_id() IS NOT CALLED '''
         obj = classroom()
         obj.id = str(incoming_id)
+        while len(obj.id) < 3:
+            obj.id = "0" + obj.id
         obj.name = str(name)
         obj.max_capacity = int(max_capacity)
         return obj
@@ -79,6 +81,8 @@ class student:
     def existing_student(cls,rollno,name,email,batch,curr_courses,past_courses):
         obj = student()
         obj.rollno = str(rollno)
+        while len(obj.rollno) < 3:
+            obj.id = "0" + obj.rollno
         obj.name = str(name)
         obj.email = email
         obj.batch = batch
@@ -142,6 +146,8 @@ class course :
         ''' Creates a course object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
         obj = course()
         obj.id = str(incoming_id)
+        while len(obj.id) < 3 :
+            obj.id = "0" + obj.id
         obj.name = str(name)
         obj.max_capacity = int(max_capacity)
         obj.professor = str(professor)
@@ -173,55 +179,54 @@ class course :
         F.close()
 
 class professor :
-	''' Class that contains details of a perticular professor '''
+    ''' Class that contains details of a perticular professor '''
 
-	def __init__(self):
-		''' Defaults all data elements to None '''
-		self.id = None
-		self.name = None
-		self.email = None
-		self.courses = None
-	
-	@classmethod
-	def new_professor(cls,name) :
-		obj = professor()
-		obj.name = name
-		obj.id = generate_professor_id()
-		if(len(obj.id)!=3) :
-			print("Number of characters in ID are not equal to 3. Will cause problems with email")
-			exit()
-		obj.email = name.split()[0].lower() + obj.id + "@iiits.in"
-		obj.courses = []
-
-		return obj
-
-	@classmethod
-	def existing_professor(cls,incoming_id,name,email,courses):
-		obj = professor()
-		obj.name = str(name)
-		obj.id = str(incoming_id)
-		obj.email = str(email)
-		obj.courses = list(courses)
-
-		return obj
-
-	def display_details(self) :
-			''' Displays details of this perticular professor '''
-			print("Details of Professor : ")
-			print("%-13s : %s"%("Id",self.id))
-			print("%-13s : %s"%("Name",self.name))
-			print("%-13s : %s" % ("Email", self.email))
-			
-			print("List of Courses : ", self.courses)
-			print()
-
+    def __init__(self):
+        ''' Defaults all data elements to None '''
+        self.id = None
+        self.name = None
+        self.email = None
+        self.courses = None
+        
     
-	def put_to_file(self) :
-			''' Appends this perticular course to the file 'course_data.csv'. '''
-			String = [self.id, self.name, str(self.email),"+".join(self.courses)]
-			F = open(data_file_paths["professor"], mode='a')
-			F.write(",".join(String) + "\n")
-			F.close()
+    @classmethod
+    def new_professor(cls,name) :
+        obj = professor()
+        obj.name = name
+        obj.id = generate_professor_id()
+        if(len(obj.id)!=3) :
+            print("Number of characters in ID are not equal to 3. Will cause problems with email")
+            exit()
+        obj.email = name.split()[0].lower() + obj.id + "@iiits.in"
+        obj.courses = []
+        return obj
+        
+    @classmethod
+    def existing_professor(cls,incoming_id,name,email,courses):
+        obj = professor()
+        obj.name = str(name)
+        obj.id = str(incoming_id)
+        while len(obj.id) < 3 :
+            obj.id = "0" + obj.id
+        obj.email = str(email)
+        obj.courses = list(courses)
+        return obj
+        
+    def display_details(self) :
+        ''' Displays details of this perticular professor '''
+        print("Details of Professor : ")
+        print("%-13s : %s"%("Id",self.id))
+        print("%-13s : %s"%("Name",self.name))
+        print("%-13s : %s" % ("Email", self.email))
+        print("List of Courses : ", self.courses)
+        print()
+        
+    def put_to_file(self) :
+        ''' Appends this perticular course to the file 'course_data.csv'. '''
+        String = [self.id, self.name, str(self.email),"+".join(self.courses)]
+        F = open(data_file_paths["professor"], mode='a')
+        F.write(",".join(String) + "\n")
+        F.close()
 
 
 class batch :
@@ -249,6 +254,8 @@ class batch :
         ''' Creates a Batch object with existing details passed as parameters. generate_course_id() IS NOT CALLED '''
         obj = batch()
         obj.id = str(incoming_id)
+        while len(obj.id) < 3:
+            obj.id = "0" + obj.id
         obj.name = str(name)
         obj.Mandatory_courses = list(MC)
         obj.Optional_courses = list(OC)
