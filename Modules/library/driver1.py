@@ -25,6 +25,13 @@ if __name__ == '__main__':
 #        V.display_details()
 #        V = next(AC)
 
-    I = get_all_batches()
-    while 1:
-        next(I).display_details()
+    # I = get_all_batches()
+    # while 1:
+    #     next(I).display_details()
+
+    S1 = student.new_student("Adwait" , "001" , ["001","002"] , [])
+    S1.display()
+    S1.put_in_file()
+    S2 = student.new_student("Adwait", "001", ["001", "002"], [])
+    S2.display()
+    S2.put_in_file()
