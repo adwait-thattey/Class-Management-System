@@ -41,13 +41,98 @@ class genetic_algorithm() :
         child2.make_timeline()
         child2.calc_fitness(self.details)
 
-        return (child1,child2)            
-                        
+        return (child1,child2)
 
+    def positive_shift_mutate(self,parent,slot,course) :
+        lower = slot
+        upper = slot
+        for i in range(slot-1,-1,-1) :
+            if parent.timeline[i] != None or course not in parent.timeline[i]:
+                break
+            else :
+                lower = i
+
+        for i in range(slot+1, len(parent.timeline)):
             
+            if parent.timeline[i]!=None or course not in parent.timeline[i]:
+                break
+            else:
+                upper = i
+
+        if upper < len(parent.timeline) -1 :
+            parent.timeline[upper+1].append(course)
+            parent.timeline[lower].remove(course)
+
+        parent.calc_fitness(self.details)
+        return parent
+
+    def vacant_slot_mutate(self,parent,slot,course) :
+        lower = slot
+        upper = slot
+        for i in range(slot-1,-1,-1) :
+            if parent.timeline[i] == None or course not in parent.timeline[i]:
+                break
+            else :
+                lower = i
+
+        for i in range(slot+1, len(parent.timeline)):
+            if parent.timeline[i] == None or course not in parent.timeline[i]:
+                break
+            else:
+                upper = i
+        # print("lower = " , str(lower) , "upper = " , str(upper))
+        number_of_slots = self.details.course_details[course]["time_slots_required"]
+        parent.vacant_slots.sort()
         
+        if lower + number_of_slots -1 != upper :
+            # print("BOUNDS UNMATCH")
+            print(1)
+            exit(1)
         
+        sequence = 0
+        for i in parent.vacant_slots :
+            for j in range(i,i + number_of_slots//2) :
+                if j not in parent.vacant_slots :
+                    break
+            else :
+                sequence = i
+                if sequence >= lower and sequence <= upper :
+                    continue
+                bflag=0
+                for brk in parent.break_points :
+                    if sequence <= brk and sequence+number_of_slots-1 >= brk:
+                        bflag=1
+                        break
+                if(bflag==1) :
+                    continue        
+
+                if sequence%20 > (sequence+number_of_slots-1)%20 :
+                    continue
+
+                break
+        else :
+            # print("Vacant Slots Not Found")
+            return parent    
         
+        for i in range(number_of_slots) :
+            parent.timeline[sequence+i] = list()
+            parent.timeline[sequence+i].append(course)
+
+        for i in range(number_of_slots) :
+            try : parent.timeline[lower+i].remove(course)
+            except : 
+                # print("Broken")
+                # print(lower+i)
+                # print(parent.timeline[lower+i])
+                print(1)
+                exit(1)
+            if len(parent.timeline[lower+i]) <=0 :
+                parent.timeline[lower+i] = None
+                parent.vacant_slots.append(lower+i)
+
+        parent.vacant_slots.sort()
+        parent.calc_fitness(self.details)
+        return parent
 
 
 if __name__=="__main__" :
