@@ -1,18 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	<h1 class="header-primary">Your Timetable</h1>
-	<div class="container data-container">
-	{% for line in myData %}
-	  	<div class="row padding-ending">
-	    	<div class="border-style col-md-2">{{line[0]}}</div>
-	    	<div class="border-style col-md-2">{{line[1]}}</div>
-	    	<div class="border-style col-md-2">{{line[2]}}</div>
-	    	<div class="border-style col-md-1">{{line[3]}}</div>
-	    	<div class="border-style col-md-1">{{line[4]}}</div>
-	    	<div class="border-style col-md-2">{{line[5]}}</div>
-	    	<div class="border-style col-md-2">{{line[6]}}</div>
-		</div>
-	{% endfor %}
-	</div>
+	<h1 class="header-primary">Timetable</h1>
+
+	<h2 class=""><a href="/data1">UG1</a></h2>
+	<h2 class=""><a href="/data2">UG2</a></h2>
+	<h2 class=""><a href="/data3">UG3</a></h2>
+	<h2 class=""><a href="/data4">UG4</a></h2>
+
 {% endblock %}
