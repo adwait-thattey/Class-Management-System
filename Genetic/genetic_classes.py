@@ -120,23 +120,24 @@ class chromosome :
         print("----------")    
     
     
-    def display_timeline(self , name="timeline") :
+    def display_timeline(self , timeline=None , name="timeline") :
         # TimeLine is always written to a CSV File for easier analysis
+        if timeline==None : timeline = self.timeline
         Days=["Mon","Tue","Wed","Thurs","Fri","Sat"]
         dayi=0
         F = open(name+".csv" , mode="w")
         F.write(
             "Days ,8.00-8.30,8.30-9.00,9.00-9.30,9.30-10.00,10.00-10.30,10.30-11.00,11.00-11.30,11.30-12.00,12.00-12.30,12.30-1.00,1.00-1.30,1.30-2.00,2.00-2.30,2.30-3.00,3.00-3.30,3.30-4.00,4.00-4.30,4.30-5.00,5.00-5.30,5.30-6.00,\n")
         S = ""
-        for i in range(len(self.timeline)) :
+        for i in range(len(timeline)) :
             if(i!=0 and i%20==0) : 
                 F.write(Days[dayi] + "," + S + "\n")
                 dayi+=1
                 S = ""
             Stemp=""    
-            if(self.timeline[i]=="Break") : Stemp = "Break"
-            elif(self.timeline[i]!=None) :
-                for j in self.timeline[i] :
+            if(timeline[i]=="Break") : Stemp = "Break"
+            elif(timeline[i]!=None) :
+                for j in timeline[i] :
                     Stemp+= j + "+"
             
             S+= Stemp + ","
@@ -145,12 +146,38 @@ class chromosome :
                 
         F.close()        
 
+    def make_timetable(self , main_data) :
+        self.display_timeline(self.timeline, name="./timeline")
+        for i in main_data.batch_details : 
+            batch_timeline = [None]*20*6  # Each time-slot is of half hour
+            
+            for j in range(len(self.timeline)):
+                if j in self.break_points:
+                    batch_timeline[j] = "Break"
+                elif self.timeline[j]==None :
+                    batch_timeline[j]=None
+                else :
+                    batch_timeline[j] = list()
+                    for k in self.timeline[j] :
+                        if k in main_data.batch_details[i] :
+                            batch_timeline[j].append(k)
+
+            self.display_timeline(batch_timeline,name="../flask/" + str(i))                
+
+
+
+
+    
     def display_details(self) :
         print("------\n Details\n")
         print("break points : " , self.break_points)
         print("fitness : " , self.fitness , self.fitness_list)
         print("no of vacant slots :" , self.vacant_slots)
         print("------")
+
+    def return_problem_creators(self,det) :
+        F = fitness_functions(det,self)
+        return F.return_problem_creators()
 
     def calc_fitness(self,det) :
         F = fitness_functions(det,self)
@@ -161,6 +188,15 @@ class chromosome :
         self.fitness_list = F.check_total_fitness()
         # print(self.fitness_list)
         self.fitness = sum(self.fitness_list)
+
+    def validate_timeline(self) :
+        for i in self.break_points :
+            if self.timeline[i] != "Break" :
+                print("Break Validation Failed")
+                return False
+
+        
+        return True        
 
 
 
@@ -226,6 +262,78 @@ class fitness_functions :
                         break
 
         return fitness
+
+    def return_problem_creators(self) :
+        course_fitness = self.check_same_course()
+        prof_fitness = self.check_professor_clash()
+        batch_fitness = self.check_batch_clash()
+        course_problem_creators = dict()
+        prof_problem_creators = dict()
+        batch_problem_creators = dict()
+        
+        if course_fitness < 0 :
+            course_problem_creators = self.get_course_problem_creators()
+        if prof_fitness < 0:
+            prof_problem_creators = self.get_prof_problem_creators()
+        if batch_fitness < 0:
+            batch_problem_creators = self.get_batch_problem_creators()
+
+        return (course_problem_creators , prof_problem_creators , batch_problem_creators)
+
+    def get_course_problem_creators(self) :
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)):
+            if(self.chrmo.timeline[i] == None):
+                continue
+            elif(self.chrmo.timeline[i] == "Break"):
+                continue
+            elif(len(self.chrmo.timeline[i]) <= 1):
+                continue
+            for j in self.chrmo.timeline[i]:
+                if(self.chrmo.timeline[i].count(j) > 1):
+                    problem_creators[i] = j
+                    break
+
+        return problem_creators        
+
+    def get_prof_problem_creators(self) :
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)):
+            if(self.chrmo.timeline[i] == None):
+                continue
+            elif(self.chrmo.timeline[i] == "Break"):
+                continue
+            elif(len(self.chrmo.timeline[i]) <= 1):
+                continue
+            cur_profs = list()
+            for j in self.chrmo.timeline[i]:
+                if(self.det.course_details[j]["professor"] in cur_profs):
+                    # print("clash at " + str(self.chrmo.timeline.index(i)))
+                    problem_creators[i] = j
+                    break
+                else:
+                    cur_profs.append(self.det.course_details[j]["professor"])
+
+        return problem_creators
+
+
+    def get_batch_problem_creators(self) : 
+        problem_creators = dict()
+        for i in range(len(self.chrmo.timeline)) :
+            if(self.chrmo.timeline[i]==None) : continue
+            elif(self.chrmo.timeline[i]=="Break") : continue    
+            elif(len(self.chrmo.timeline[i])<=1) : continue
+            for j in self.chrmo.timeline[i]:
+                B = self.det.course_details[j]["batch"]
+                for k in self.chrmo.timeline[i]:
+                    if(k!=j and k in self.det.batch_details[B]) : 
+                        # print("clash at " + str(self.chrmo.timeline.index(i)))
+                        problem_creators[i] = j
+                        break
+
+        return problem_creators       
+
+
 
 
 if __name__=="__main__" :

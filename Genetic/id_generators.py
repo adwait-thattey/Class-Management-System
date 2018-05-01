@@ -31,29 +31,40 @@ def generate_course_id():
     return ret_id
 
 def get_new_roll():
-	try :
-		file = open(data_file_paths["student"],mode='r')
-	except:
-		print("file not found")
-
-	file.readline()
-	id=[]
-	for line in file:
-		if(len(line)<= 0):
-			break
-		try:
-			id.append(int(line.split(',')[0]))
-		except:
-			continue
-	if(len(list)<=0):
-		return "001"
-	maxm = max(id)
-	maxm +=1
-	file.close()
-	maxm = str(maxm)
-	while(len(maxm)<3):
-		maxm = '0' + maxm
-	return maxm
+    try :
+        file = open(data_file_paths["student"],mode='r')
+        #print("file is found")
+    except:
+        print("file not found \n creating new file")
+        file = open(data_file_paths["student"],"w")
+        file.write("Roll No , Name , Email , Batch , list of current courses , list of past courses ")
+        file.close()
+        return "001"
+	
+    curr_id = 0
+    ret_id = 0
+    file.readline()
+    id=[]
+    for line in file:
+        #print(line)
+        if(len(line)<=0):
+            break;
+        try: 
+            roll = int (line.split(',')[0])
+            #print(roll)
+        except : continue
+        if (roll - curr_id != 1):
+            ret_id = curr_id + 1
+            break
+        curr_id+= 1
+    else:
+        ret_id = curr_id + 1
+    ret_id = str(ret_id)
+    file.close()
+    while(len(ret_id)<3):
+        ret_id = '0' + ret_id
+    #print(ret_id)
+    return ret_id
 
 def generate_classroom_id():
     ''' Generates a new unique classroom ID by observing all the existing classroom IDs from the file 'classroom_data.csv' '''
