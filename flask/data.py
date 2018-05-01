@@ -1,6 +1,19 @@
-def get_TT_data():
-    F = open('dummy.csv',mode='r')
+def get_TT_data1():
+    F = open('001.csv',mode='r')
     return F.readlines()
+
+def get_TT_data2():
+    F = open('002.csv',mode='r')
+    return F.readlines()
+
+def get_TT_data3():
+    F = open('003.csv',mode='r')
+    return F.readlines()
+
+def get_TT_data4():
+    F = open('004.csv',mode='r')
+    return F.readlines()
+
 
 def make_TT_Readable():
     temp = get_csv_data()
