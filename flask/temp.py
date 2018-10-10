@@ -2,8 +2,11 @@ from data import *
 
 
 
-# for i in num:
-# 	print(i)
+#printing the array just to check it
+for i in range(100):
+	print(i)
+
+
 
 course_arr = []
 
